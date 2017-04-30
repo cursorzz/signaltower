@@ -16,7 +16,7 @@ defmodule SignalTower.Mixfile do
   def application do
     [
       mod: { SignalTower, [] },
-      applications: [:logger, :cowboy, :poison]
+      applications: [:logger, :cowboy, :poison, :collectd]
     ]
   end
 
@@ -33,7 +33,8 @@ defmodule SignalTower.Mixfile do
     [
       {:cowboy, "~> 1.0.0"},
       {:poison, "~> 1.5"},
-      {:distillery, "~> 0.9"}
+      {:distillery, "~> 0.9"},
+      {:collectd, github: "cstar/erlang-collectd", ref: "25594eb"}
     ]
   end
 end

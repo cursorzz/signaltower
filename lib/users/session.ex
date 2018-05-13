@@ -5,7 +5,7 @@ end
 defmodule SignalTower.Session do
   alias SignalTower.Room
   alias SignalTower.MsgIntegrity
-  use GenServer
+  # use GenServer
 
   def handle_message(msg, room) do
     case MsgIntegrity.check(msg, room) do

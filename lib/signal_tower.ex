@@ -16,7 +16,10 @@ defmodule SignalTower do
     {port, _} = Integer.parse(System.get_env("PALAVA_RTC_ADDRESS") || "4233")
 
     dispatch = :cowboy_router.compile([
-      {:_, [{"/[...]", SignalTower.WebsocketHandler, []}]}
+      {:_, [
+        {"/", SignalTower.RouterHandler, []},
+        {"/ws/[...]", SignalTower.WebsocketHandler, []}
+      ]}
     ])
 
     {port, dispatch}
@@ -25,7 +28,7 @@ defmodule SignalTower do
   defp start_supervisor({port, dispatch}) do
     children = [
       supervisor(SignalTower.RoomSupervisor, []),
-      worker(:cowboy, [:http, 100, [port: port], [env: [dispatch: dispatch]]], function: :start_http)
+      worker(:cowboy, [:web, [port: port], %{env: %{dispatch: dispatch}}], function: :start_clear)
     ]
     Supervisor.start_link(children, strategy: :one_for_one)
   end

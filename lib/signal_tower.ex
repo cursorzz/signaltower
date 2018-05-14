@@ -25,7 +25,7 @@ defmodule SignalTower do
   defp start_supervisor({port, dispatch}) do
     children = [
       supervisor(SignalTower.RoomSupervisor, []),
-      worker(:cowboy, [:http, 100, [port: port], [env: [dispatch: dispatch]]], function: :start_http)
+      worker(:cowboy, [:https, 100, [port: port, certfile: "priv/ssl/cert.pem", keyfile: "priv/ssl/key.pem"], [env: [dispatch: dispatch]]], function: :start_https)
     ]
     Supervisor.start_link(children, strategy: :one_for_one)
   end
